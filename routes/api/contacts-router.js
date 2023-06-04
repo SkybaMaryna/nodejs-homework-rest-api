@@ -29,7 +29,7 @@ contactsRouter.use((req, res, next) => {
 
 contactsRouter.put(
   '/:id',
-  validateBody(schemas.contactUpdateSchema),
+  validateBody(schemas.contactAddSchema),
   contactsController.updateById
 );
 
