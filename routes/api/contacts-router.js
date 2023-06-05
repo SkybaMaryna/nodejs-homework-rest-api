@@ -25,6 +25,7 @@ contactsRouter.use((req, res, next) => {
   } catch (error) {
     next(error)
   }
+  next()
 });
 
 contactsRouter.put(
