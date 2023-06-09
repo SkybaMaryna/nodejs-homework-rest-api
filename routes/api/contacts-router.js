@@ -3,35 +3,39 @@ const contactsRouter = express.Router();
 const contactsController = require('../../controllers/contacts-controller');
 const schemas = require('../../schemas/contacts');
 const { validateBody } = require('../../decorators');
-const { HttpError } = require('../../helpers');
+const {
+  isBodyEmpty,
+  isValidId,
+  isFavoritePass,
+} = require('../../middlewares/');
 
 contactsRouter.get('/', contactsController.getAll);
 
-contactsRouter.get('/:id', contactsController.getById);
+contactsRouter.get('/:id', isValidId, contactsController.getById);
 
 contactsRouter.post(
   '/',
+  isBodyEmpty,
   validateBody(schemas.contactAddSchema),
   contactsController.add
 );
 
-contactsRouter.delete('/:id', contactsController.deleteById);
-
-contactsRouter.use((req, res, next) => {
-  try {
-    if (Object.keys(req.body).length === 0) {
-      throw HttpError(400, 'missing fields');
-    }
-  } catch (error) {
-    next(error)
-  }
-  next()
-});
+contactsRouter.delete('/:id', isValidId, contactsController.deleteById);
 
 contactsRouter.put(
   '/:id',
+  isValidId,
+  isBodyEmpty,
   validateBody(schemas.contactAddSchema),
   contactsController.updateById
+);
+
+contactsRouter.patch(
+  '/:id/favorite',
+  isValidId,
+  isFavoritePass,
+  validateBody(schemas.contactUpdateStatusSchema),
+  contactsController.updateStatusContact
 );
 
 module.exports = contactsRouter;
