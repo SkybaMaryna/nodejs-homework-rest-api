@@ -7,7 +7,10 @@ const {
   isBodyEmpty,
   isValidId,
   isFavoritePass,
+  authenticate,
 } = require('../../middlewares/');
+
+contactsRouter.use(authenticate);
 
 contactsRouter.get('/', contactsController.getAll);
 
