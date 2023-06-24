@@ -10,6 +10,7 @@ const userCheckSchema = Joi.object({
   }),
   subscription: Joi.string().valid(...subscriptionList),
   token: Joi.string(),
+  avatarURL: Joi.string(),
 });
 
 const subscriptionUpdateSchema = Joi.object({
